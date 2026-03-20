@@ -1,0 +1,21 @@
+# Python
+.venv/
+mltemp/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# MLflow
+mlruns/
+
+# Data (keep raw CSV, ignore processed)
+data/processed/
+
+# Env
+.env
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,55 @@
+data:
+  raw_path: data/raw/telco_churn.csv
+  test_size: 0.2
+  random_state: 42
+  target_column: Churn
+
+features:
+  categorical:
+    - gender
+    - Partner
+    - Dependents
+    - PhoneService
+    - MultipleLines
+    - InternetService
+    - OnlineSecurity
+    - OnlineBackup
+    - DeviceProtection
+    - TechSupport
+    - StreamingTV
+    - StreamingMovies
+    - Contract
+    - PaperlessBilling
+    - PaymentMethod
+  numerical:
+    - tenure
+    - MonthlyCharges
+    - TotalCharges
+  drop:
+    - customerID
+
+model:
+  type: random_forest
+  params:
+    n_estimators: 200
+    max_depth: 10
+    min_samples_split: 5
+    class_weight: balanced
+    random_state: 42
+
+evaluation:
+  threshold: 0.5
+  metrics:
+    - roc_auc
+    - f1
+    - precision
+    - recall
+
+mlflow:
+  experiment_name: telco_churn
+  tracking_uri: mlruns
+
+serving:
+  host: 0.0.0.0
+  port: 8000
+  model_uri: models:/telco_churn/Production
