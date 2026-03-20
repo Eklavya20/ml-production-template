@@ -1,6 +1,5 @@
 import logging
 import mlflow.sklearn
-import numpy as np
 import pandas as pd
 import yaml
 from contextlib import asynccontextmanager

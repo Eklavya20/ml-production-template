@@ -1,6 +1,5 @@
 import pytest
 import pandas as pd
-import numpy as np
 from features.build_features import TelcoPreprocessor, encode_target, load_config
 
 

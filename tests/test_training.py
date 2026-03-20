@@ -1,7 +1,5 @@
 import pytest
 import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
 from sklearn.datasets import make_classification
 from features.build_features import load_config
 from training.train import load_model, evaluate

@@ -1,9 +1,6 @@
 import logging
-import yaml
 import mlflow
 import mlflow.sklearn
-import numpy as np
-import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from sklearn.pipeline import Pipeline
