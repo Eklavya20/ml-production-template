@@ -1,5 +1,4 @@
-Create README.md:
-markdown# ml-production-template
+# ml-production-template
 
 A production-ready Machine Learning template built around a real churn prediction problem.
 Clone it, swap the dataset, and have a fully operational ML system running in minutes.
@@ -50,11 +49,26 @@ raw data
 
 ---
 
+## Evaluation outputs
+
+Every training run logs the following artifacts to MLflow automatically:
+
+| Plot | What it tells you |
+|---|---|
+| ROC Curve | Discrimination ability across all thresholds |
+| Precision-Recall Curve | Performance under class imbalance |
+| Calibration Curve | Whether predicted probabilities are trustworthy |
+| Confusion Matrix | Errors at the chosen operating threshold |
+
+Threshold is tuned to maximise F1 before final evaluation.
+
+---
+
 ## Quickstart
 
 ### 1. Clone and install
 ```bash
-git clone https://github.com//ml-production-template.git
+git clone https://github.com/Eklavya20/ml-production-template.git
 cd ml-production-template
 python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
