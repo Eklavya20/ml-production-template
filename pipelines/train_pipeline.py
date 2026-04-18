@@ -76,11 +76,20 @@ def task_full_evaluation(pipeline, X_test, y_test, config: dict):
 
 
 @task(name="log-and-register-model")
-def task_register_model(pipeline, metrics: dict, config: dict):
+def task_register_model(pipeline, metrics: dict, config: dict, X_test, y_test):
     logger = get_run_logger()
     mlflow.log_params(config["model"]["params"])
     mlflow.log_metrics(metrics)
     mlflow.log_artifact("configs/config.yaml")
+
+    # Log test data for ml-guardian
+    X_test.to_csv("X_test.csv", index=False)
+    y_test.to_csv("y_test.csv", index=False)
+    mlflow.log_artifact("X_test.csv")
+    mlflow.log_artifact("y_test.csv")
+    os.remove("X_test.csv")
+    os.remove("y_test.csv")
+
     mlflow.sklearn.log_model(
         pipeline,
         artifact_path="model",
@@ -111,7 +120,7 @@ def training_pipeline(config_path: str = "configs/config.yaml"):
         task_full_evaluation(trained_pipeline, X_test, y_test, config)
 
         # Register
-        task_register_model(trained_pipeline, metrics, config)
+        task_register_model(trained_pipeline, metrics, config, X_test, y_test)
 
 
 if __name__ == "__main__":
