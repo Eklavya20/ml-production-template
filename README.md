@@ -19,6 +19,7 @@ Clone it, swap the dataset, and have a fully operational ML system running in mi
 | Containerisation | Docker + Docker Compose |
 | CI/CD | GitHub Actions |
 | Dataset | IBM Telco Customer Churn |
+| Quality gates | [ML Guardian](https://github.com/Eklavya20/ml-guardian) |
 
 ---
 
@@ -203,6 +204,13 @@ pytest tests/ -v --cov=src
 2. Update `configs/config.yaml` — target column, feature lists, model params
 3. Swap out `TelcoPreprocessor` in `src/features/build_features.py` for your own cleaning logic
 4. Run the pipeline — everything else (MLflow logging, serving, CI) works as-is
+
+---
+
+## Related Projects
+
+- [`diagnost`](https://github.com/Eklavya20/diagnost) — model diagnostics library  
+- [`ml-guardian`](https://github.com/Eklavya20/ml-guardian) — automated quality gates and auto-promotion for MLflow models  
 
 ---
 
