@@ -65,6 +65,24 @@ Threshold is tuned to maximise F1 before final evaluation.
 
 ---
 
+## Data Validation
+
+Input data is validated against a Pandera schema before any training run begins.
+The pipeline checks column types, value ranges, and allowed categorical values.
+
+| Check | Detail |
+|---|---|
+| `tenure` | Integer, must be ≥ 0 |
+| `MonthlyCharges` | Float, must be > 0 |
+| `TotalCharges` | Float, must be ≥ 0 |
+| `Contract` | Must be one of: Month-to-month, One year, Two year |
+| `Churn` | Must be one of: Yes, No |
+
+Invalid data raises immediately with a detailed failure report — the training run never starts.
+Validation status and input shape are logged to MLflow on every successful run.
+
+---
+
 ## Quickstart
 
 ### 1. Clone and install
@@ -209,8 +227,8 @@ pytest tests/ -v --cov=src
 
 ## Related Projects
 
-- [`diagnost`](https://github.com/Eklavya20/diagnost) — model diagnostics library  
-- [`ml-guardian`](https://github.com/Eklavya20/ml-guardian) — automated quality gates and auto-promotion for MLflow models  
+- [`diagnost`](https://github.com/Eklavya20/diagnost) : model diagnostics library  
+- [`ml-guardian`](https://github.com/Eklavya20/ml-guardian) : automated quality gates and auto-promotion for MLflow models  
 
 ---
 
