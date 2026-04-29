@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler, OrdinalEncoder
 from sklearn.compose import ColumnTransformer
 import yaml
 import logging
+from src.features.schema import validate_input
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +73,7 @@ def _binary_sentinel() -> list:
 
 def prepare_data(config: dict):
     df = load_data(config)
+    validate_input(df)  # <-- add this line, nothing else changes
 
     drop_cols = config["features"]["drop"]
     target_col = config["data"]["target_column"]
