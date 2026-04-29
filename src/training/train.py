@@ -1,4 +1,5 @@
 import logging
+import os
 import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
@@ -45,6 +46,8 @@ def train(config_path: str = "configs/config.yaml"):
 
         # --- Data ---
         X, y, telco_prep = prepare_data(config)
+        mlflow.set_tag("data_validation", "passed") 
+        mlflow.log_param("input_rows", X.shape[0])  
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
             test_size=config["data"]["test_size"],
@@ -72,6 +75,16 @@ def train(config_path: str = "configs/config.yaml"):
         # --- Evaluate ---
         threshold = config["evaluation"]["threshold"]
         metrics = evaluate(pipeline, X_test, y_test, threshold)
+
+        # ✅ --- Log test datasets as artifacts ---
+        X_test.to_csv("X_test.csv", index=False)
+        y_test.to_csv("y_test.csv", index=False)
+
+        mlflow.log_artifact("X_test.csv")
+        mlflow.log_artifact("y_test.csv")
+
+        os.remove("X_test.csv")
+        os.remove("y_test.csv")
 
         # --- Log to MLflow ---
         mlflow.log_params(config["model"]["params"])
