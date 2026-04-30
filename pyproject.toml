@@ -21,6 +21,7 @@ dependencies = [
     "pydantic>=2.7",
     "pyyaml>=6.0",
     "imbalanced-learn>=0.12",
+    "pandera[pandas]",
 ]
 
 [project.optional-dependencies]
