@@ -1,6 +1,7 @@
 import logging
 import sys
 import os
+from features.data_quality import compute_data_quality_metrics
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
@@ -98,6 +99,15 @@ def task_register_model(pipeline, metrics: dict, config: dict, X_test, y_test):
     logger.info("Model logged and registered in MLflow")
 
 
+@task(name="log-data-quality-metrics")
+def task_log_data_quality(X, y, config: dict):
+    logger = get_run_logger()
+    metrics = compute_data_quality_metrics(X, y, config)
+    mlflow.log_metrics(metrics)
+    logger.info(f"Data quality metrics logged — {len(metrics)} metrics")
+    return metrics
+
+
 @flow(name="telco-churn-training-pipeline", log_prints=True)
 def training_pipeline(config_path: str = "configs/config.yaml"):
     config = load_config(config_path)
@@ -109,6 +119,7 @@ def training_pipeline(config_path: str = "configs/config.yaml"):
 
         # Data
         X, y, _ = task_prepare_data(config)
+        task_log_data_quality(X, y, config)
         X_train, X_test, y_train, y_test = task_split_data(X, y, config)
 
         # Train
